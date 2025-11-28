@@ -26,8 +26,8 @@ function answerQuestion2(answer) {
 
     setTimeout(() => showCard('thank-you-card'), 300);
 
-    // Adicionar mais confetes
-    createConfetti();
+    // Adicionar partículas
+    createParticles();
 }
 
 function hideCard(cardId) {
@@ -64,20 +64,31 @@ function submitAnswers() {
     });
 }
 
-function createConfetti() {
-    const emojis = ['🎉', '🎊', '💖', '✨', '🌟', '💕', '🎈', '🎁'];
-    const confettiContainer = document.querySelector('.confetti');
+function createParticles() {
+    const particlesContainer = document.querySelector('.particles');
+    const colors = [
+        'linear-gradient(135deg, #667eea, #764ba2)',
+        'linear-gradient(135deg, #43e97b, #38f9d7)',
+        'linear-gradient(135deg, #f093fb, #f5576c)',
+        'linear-gradient(135deg, #4facfe, #00f2fe)',
+        'linear-gradient(135deg, #fa709a, #fee140)',
+        'linear-gradient(135deg, #30cfd0, #330867)'
+    ];
 
-    for (let i = 0; i < 30; i++) {
-        const confetti = document.createElement('div');
-        confetti.style.position = 'absolute';
-        confetti.style.left = Math.random() * 100 + '%';
-        confetti.style.top = '-10%';
-        confetti.style.fontSize = '2rem';
-        confetti.style.animation = `fall ${2 + Math.random() * 2}s linear`;
-        confetti.style.animationDelay = Math.random() * 2 + 's';
-        confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        confettiContainer.appendChild(confetti);
+    for (let i = 0; i < 40; i++) {
+        const particle = document.createElement('div');
+        particle.style.position = 'absolute';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = '100%';
+        particle.style.width = (Math.random() * 10 + 5) + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.borderRadius = '50%';
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.animation = `particleFloat ${2 + Math.random() * 2}s ease-out`;
+        particle.style.animationDelay = Math.random() * 0.5 + 's';
+        particle.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.5)';
+        particle.style.opacity = '0';
+        particlesContainer.appendChild(particle);
     }
 }
 

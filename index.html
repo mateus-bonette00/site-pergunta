@@ -7,48 +7,87 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="stars"></div>
+    <div class="background-animation">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+            <div class="shape shape-6"></div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="card" id="intro-card">
-            <div class="emoji-header">📚✨</div>
+            <div class="card-glow"></div>
+            <div class="icon-header">
+                <div class="icon-circle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                        <path d="M2 17L12 22L22 17"/>
+                        <path d="M2 12L12 17L22 12"/>
+                    </svg>
+                </div>
+            </div>
             <h1 class="title">Olá Camila Souza Andrade</h1>
+            <div class="divider"></div>
             <p class="subtitle">Você poderia responder minha pergunta para o meu TCC?</p>
-            <button class="btn btn-start" onclick="startQuestions()">Claro! Vamos lá 🚀</button>
+            <button class="btn btn-start" onclick="startQuestions()">
+                <span class="btn-text">Claro! Vamos lá</span>
+                <span class="btn-arrow">→</span>
+            </button>
         </div>
 
         <div class="card hidden" id="question1-card">
-            <div class="emoji-header">🎭🌟</div>
-            <h2 class="question-title">Pergunta 1</h2>
+            <div class="card-glow"></div>
+            <div class="question-number">01</div>
+            <h2 class="question-title">Primeira Pergunta</h2>
+            <div class="divider"></div>
             <p class="question-text">Você deseja viver uma aventura e me conhecer, e começar a conversar comigo?</p>
             <div class="button-group">
                 <button class="btn btn-yes" onclick="answerQuestion1(true)">
-                    <span class="btn-icon">😊</span> Sim!
+                    <span class="btn-check">✓</span>
+                    <span class="btn-text">Sim!</span>
                 </button>
                 <button class="btn btn-no" onclick="answerQuestion1(false)">
-                    <span class="btn-icon">😅</span> Não
+                    <span class="btn-check">✗</span>
+                    <span class="btn-text">Não</span>
                 </button>
             </div>
         </div>
 
         <div class="card hidden" id="question2-card">
-            <div class="emoji-header">💝🎪</div>
-            <h2 class="question-title">Pergunta 2</h2>
+            <div class="card-glow"></div>
+            <div class="question-number">02</div>
+            <h2 class="question-title">Segunda Pergunta</h2>
+            <div class="divider"></div>
             <p class="question-text">Agora, depois de a gente se conhecer bem, você deseja sair comigo?</p>
             <div class="button-group">
                 <button class="btn btn-yes" onclick="answerQuestion2(true)">
-                    <span class="btn-icon">💕</span> Sim!
+                    <span class="btn-check">✓</span>
+                    <span class="btn-text">Sim!</span>
                 </button>
                 <button class="btn btn-no" onclick="answerQuestion2(false)">
-                    <span class="btn-icon">🙈</span> Não
+                    <span class="btn-check">✗</span>
+                    <span class="btn-text">Não</span>
                 </button>
             </div>
         </div>
 
         <div class="card hidden" id="thank-you-card">
-            <div class="emoji-header">🎉💖</div>
+            <div class="card-glow"></div>
+            <div class="success-icon">
+                <div class="success-circle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <path d="M20 6L9 17L4 12"/>
+                    </svg>
+                </div>
+            </div>
             <h2 class="question-title">Obrigado!</h2>
+            <div class="divider"></div>
             <p class="question-text">Suas respostas foram enviadas com sucesso!</p>
-            <div class="confetti"></div>
+            <div class="particles"></div>
         </div>
     </div>
 

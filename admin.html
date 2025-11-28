@@ -185,7 +185,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>📊 Respostas do TCC</h1>
+        <h1>Respostas do TCC</h1>
 
         <div id="stats" class="stats" style="display: none;">
             <h2>Estatísticas</h2>
@@ -218,7 +218,7 @@
         <div id="answers-container"></div>
     </div>
 
-    <button class="refresh-btn" onclick="loadAnswers()">🔄 Atualizar</button>
+    <button class="refresh-btn" onclick="loadAnswers()">Atualizar</button>
 
     <script>
         function loadAnswers() {
@@ -236,7 +236,7 @@
                     loading.style.display = 'none';
 
                     if (!data.success || data.answers.length === 0) {
-                        container.innerHTML = '<div class="no-answers">Nenhuma resposta ainda 😢</div>';
+                        container.innerHTML = '<div class="no-answers">Nenhuma resposta ainda</div>';
                         return;
                     }
 
@@ -295,7 +295,7 @@
                         Você deseja viver uma aventura e me conhecer?
                     </div>
                     <div class="answer-badge ${answer.question1 ? 'answer-yes' : 'answer-no'}">
-                        ${answer.question1 ? '✅ SIM' : '❌ NÃO'}
+                        ${answer.question1 ? 'SIM' : 'NÃO'}
                     </div>
                 </div>
                 <div class="question-result">
@@ -303,7 +303,7 @@
                         Você deseja sair comigo?
                     </div>
                     <div class="answer-badge ${answer.question2 ? 'answer-yes' : 'answer-no'}">
-                        ${answer.question2 ? '💕 SIM' : '🙈 NÃO'}
+                        ${answer.question2 ? 'SIM' : 'NÃO'}
                     </div>
                 </div>
             `;
