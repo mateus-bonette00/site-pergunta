@@ -1,0 +1,19 @@
+{
+  "name": "pergunta-pro-tcc",
+  "version": "1.0.0",
+  "description": "Site moderno e divertido para fazer perguntas importantes",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "tcc",
+    "pergunta",
+    "site"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}

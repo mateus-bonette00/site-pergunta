@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Ver Respostas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-top: 50px;
+        }
+
+        .no-answers {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            color: #555;
+            font-size: 1.3rem;
+        }
+
+        .answer-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .answer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .answer-id {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .answer-date {
+            font-size: 1rem;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .question-result {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question-text {
+            color: #333;
+            font-size: 1.1rem;
+            flex: 1;
+        }
+
+        .answer-badge {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .answer-yes {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .answer-no {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .stats {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .stats h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .answer-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .question-result {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Respostas do TCC</h1>
+
+        <div id="stats" class="stats" style="display: none;">
+            <h2>Estatísticas</h2>
+            <div class="stat-item">
+                <span>Total de Respostas:</span>
+                <strong id="total-count">0</strong>
+            </div>
+            <div class="stat-item">
+                <span>Pergunta 1 - SIM:</span>
+                <strong id="q1-yes">0</strong>
+            </div>
+            <div class="stat-item">
+                <span>Pergunta 1 - NÃO:</span>
+                <strong id="q1-no">0</strong>
+            </div>
+            <div class="stat-item">
+                <span>Pergunta 2 - SIM:</span>
+                <strong id="q2-yes">0</strong>
+            </div>
+            <div class="stat-item">
+                <span>Pergunta 2 - NÃO:</span>
+                <strong id="q2-no">0</strong>
+            </div>
+        </div>
+
+        <div id="loading" class="loading">
+            Carregando respostas...
+        </div>
+
+        <div id="answers-container"></div>
+    </div>
+
+    <button class="refresh-btn" onclick="loadAnswers()">🔄 Atualizar</button>
+
+    <script>
+        function loadAnswers() {
+            const loading = document.getElementById('loading');
+            const container = document.getElementById('answers-container');
+            const statsDiv = document.getElementById('stats');
+
+            loading.style.display = 'block';
+            container.innerHTML = '';
+            statsDiv.style.display = 'none';
+
+            fetch('/api/get-answers')
+                .then(response => response.json())
+                .then(data => {
+                    loading.style.display = 'none';
+
+                    if (!data.success || data.answers.length === 0) {
+                        container.innerHTML = '<div class="no-answers">Nenhuma resposta ainda 😢</div>';
+                        return;
+                    }
+
+                    // Mostrar estatísticas
+                    statsDiv.style.display = 'block';
+                    const stats = calculateStats(data.answers);
+                    document.getElementById('total-count').textContent = stats.total;
+                    document.getElementById('q1-yes').textContent = stats.q1Yes;
+                    document.getElementById('q1-no').textContent = stats.q1No;
+                    document.getElementById('q2-yes').textContent = stats.q2Yes;
+                    document.getElementById('q2-no').textContent = stats.q2No;
+
+                    // Mostrar respostas (mais recentes primeiro)
+                    data.answers.reverse().forEach((answer, index) => {
+                        const card = createAnswerCard(answer, data.answers.length - index);
+                        container.appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar respostas:', error);
+                    loading.style.display = 'none';
+                    container.innerHTML = '<div class="no-answers">Erro ao carregar respostas. Verifique o console.</div>';
+                });
+        }
+
+        function calculateStats(answers) {
+            return {
+                total: answers.length,
+                q1Yes: answers.filter(a => a.question1 === true).length,
+                q1No: answers.filter(a => a.question1 === false).length,
+                q2Yes: answers.filter(a => a.question2 === true).length,
+                q2No: answers.filter(a => a.question2 === false).length
+            };
+        }
+
+        function createAnswerCard(answer, number) {
+            const card = document.createElement('div');
+            card.className = 'answer-card';
+
+            const date = new Date(answer.timestamp);
+            const formattedDate = date.toLocaleString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            card.innerHTML = `
+                <div class="answer-header">
+                    <div class="answer-id">Resposta #${number}</div>
+                    <div class="answer-date">${formattedDate}</div>
+                </div>
+                <div class="question-result">
+                    <div class="question-text">
+                        Você deseja viver uma aventura e me conhecer?
+                    </div>
+                    <div class="answer-badge ${answer.question1 ? 'answer-yes' : 'answer-no'}">
+                        ${answer.question1 ? '✅ SIM' : '❌ NÃO'}
+                    </div>
+                </div>
+                <div class="question-result">
+                    <div class="question-text">
+                        Você deseja sair comigo?
+                    </div>
+                    <div class="answer-badge ${answer.question2 ? 'answer-yes' : 'answer-no'}">
+                        ${answer.question2 ? '💕 SIM' : '🙈 NÃO'}
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Carregar respostas ao abrir a página
+        loadAnswers();
+
+        // Atualizar a cada 30 segundos
+        setInterval(loadAnswers, 30000);
+    </script>
+</body>
+</html>
