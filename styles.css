@@ -308,6 +308,18 @@ body {
     line-height: 1.8;
 }
 
+.redirect-text {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 20px;
+    animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+
 .btn {
     padding: 18px 40px;
     font-size: 1.2rem;

@@ -230,6 +230,25 @@
             container.innerHTML = '';
             statsDiv.style.display = 'none';
 
+            // Tentar carregar do localStorage primeiro
+            let answers = [];
+            const stored = localStorage.getItem('tcc-all-answers');
+            if (stored) {
+                try {
+                    answers = JSON.parse(stored);
+                } catch (e) {
+                    answers = [];
+                }
+            }
+
+            // Se tiver respostas no localStorage, usar elas
+            if (answers.length > 0) {
+                displayAnswers(answers);
+                loading.style.display = 'none';
+                return;
+            }
+
+            // Caso contrário, tentar da API (não vai funcionar na Vercel sem DB)
             fetch('/api/get-answers')
                 .then(response => response.json())
                 .then(data => {
@@ -240,26 +259,34 @@
                         return;
                     }
 
-                    // Mostrar estatísticas
-                    statsDiv.style.display = 'block';
-                    const stats = calculateStats(data.answers);
-                    document.getElementById('total-count').textContent = stats.total;
-                    document.getElementById('q1-yes').textContent = stats.q1Yes;
-                    document.getElementById('q1-no').textContent = stats.q1No;
-                    document.getElementById('q2-yes').textContent = stats.q2Yes;
-                    document.getElementById('q2-no').textContent = stats.q2No;
-
-                    // Mostrar respostas (mais recentes primeiro)
-                    data.answers.reverse().forEach((answer, index) => {
-                        const card = createAnswerCard(answer, data.answers.length - index);
-                        container.appendChild(card);
-                    });
+                    displayAnswers(data.answers);
                 })
                 .catch(error => {
                     console.error('Erro ao carregar respostas:', error);
                     loading.style.display = 'none';
-                    container.innerHTML = '<div class="no-answers">Erro ao carregar respostas. Verifique o console.</div>';
+                    container.innerHTML = '<div class="no-answers">Nenhuma resposta ainda</div>';
                 });
+        }
+
+        function displayAnswers(answers) {
+            const container = document.getElementById('answers-container');
+            const statsDiv = document.getElementById('stats');
+
+            // Mostrar estatísticas
+            statsDiv.style.display = 'block';
+            const stats = calculateStats(answers);
+            document.getElementById('total-count').textContent = stats.total;
+            document.getElementById('q1-yes').textContent = stats.q1Yes;
+            document.getElementById('q1-no').textContent = stats.q1No;
+            document.getElementById('q2-yes').textContent = stats.q2Yes;
+            document.getElementById('q2-no').textContent = stats.q2No;
+
+            // Mostrar respostas (mais recentes primeiro)
+            const sortedAnswers = [...answers].reverse();
+            sortedAnswers.forEach((answer, index) => {
+                const card = createAnswerCard(answer, answers.length - index);
+                container.appendChild(card);
+            });
         }
 
         function calculateStats(answers) {

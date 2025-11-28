@@ -28,6 +28,11 @@ function answerQuestion2(answer) {
 
     // Adicionar partículas
     createParticles();
+
+    // Redirecionar para WhatsApp após 3 segundos
+    setTimeout(() => {
+        redirectToWhatsApp();
+    }, 3000);
 }
 
 function hideCard(cardId) {
@@ -45,22 +50,42 @@ function showCard(cardId) {
 }
 
 function submitAnswers() {
-    // Enviar para o servidor
+    // Salvar no localStorage (principal)
+    let allAnswers = [];
+    const stored = localStorage.getItem('tcc-all-answers');
+    if (stored) {
+        try {
+            allAnswers = JSON.parse(stored);
+        } catch (e) {
+            allAnswers = [];
+        }
+    }
+
+    // Adicionar nova resposta
+    const answerWithId = {
+        ...answers,
+        id: Date.now()
+    };
+    allAnswers.push(answerWithId);
+
+    // Salvar todas as respostas
+    localStorage.setItem('tcc-all-answers', JSON.stringify(allAnswers));
+
+    // Também enviar para o servidor (logs)
     fetch('/api/submit', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(answers)
+        body: JSON.stringify(answerWithId)
     })
     .then(response => response.json())
     .then(data => {
         console.log('Respostas enviadas com sucesso!', data);
     })
     .catch(error => {
-        console.error('Erro ao enviar respostas:', error);
-        // Fallback: salvar localmente
-        localStorage.setItem('tcc-answers', JSON.stringify(answers));
+        console.error('Erro ao enviar para API:', error);
+        // Não tem problema, já salvou no localStorage
     });
 }
 
@@ -90,6 +115,30 @@ function createParticles() {
         particle.style.opacity = '0';
         particlesContainer.appendChild(particle);
     }
+}
+
+function redirectToWhatsApp() {
+    // Criar mensagem com as respostas
+    const resposta1 = answers.question1 ? 'Sim' : 'Não';
+    const resposta2 = answers.question2 ? 'Sim' : 'Não';
+
+    const mensagem = `Olá! Respondi as perguntas do seu TCC:\n\n` +
+                    `*Pergunta 1:* Você deseja viver uma aventura e me conhecer, e começar a conversar comigo?\n` +
+                    `*Resposta:* ${resposta1}\n\n` +
+                    `*Pergunta 2:* Agora, depois de a gente se conhecer bem, você deseja sair comigo?\n` +
+                    `*Resposta:* ${resposta2}`;
+
+    // Codificar a mensagem para URL
+    const mensagemCodificada = encodeURIComponent(mensagem);
+
+    // Número do WhatsApp
+    const numeroWhatsApp = '5535998183459';
+
+    // URL do WhatsApp
+    const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
+
+    // Redirecionar
+    window.location.href = urlWhatsApp;
 }
 
 // Adicionar animação de saída
