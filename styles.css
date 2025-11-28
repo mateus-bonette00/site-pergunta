@@ -476,17 +476,37 @@ body {
 }
 
 /* Responsividade */
+
+/* Tablets grandes e pequenos laptops */
+@media (max-width: 1024px) {
+    .container {
+        max-width: 90%;
+    }
+
+    .shape {
+        filter: blur(70px);
+    }
+}
+
+/* Tablets */
 @media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
     .card {
-        padding: 40px 30px;
+        padding: 40px 25px;
+        border-radius: 25px;
     }
 
     .title {
         font-size: 2rem;
+        line-height: 1.3;
     }
 
     .subtitle {
         font-size: 1.1rem;
+        margin-bottom: 30px;
     }
 
     .question-title {
@@ -495,10 +515,21 @@ body {
 
     .question-text {
         font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+
+    .redirect-text {
+        font-size: 1rem;
+        margin-top: 15px;
     }
 
     .question-number {
         font-size: 3.5rem;
+    }
+
+    .divider {
+        width: 60px;
+        margin: 20px auto;
     }
 
     .btn {
@@ -509,9 +540,14 @@ body {
     .button-group {
         flex-direction: column;
         width: 100%;
+        gap: 15px;
     }
 
     .btn-yes, .btn-no {
+        width: 100%;
+    }
+
+    .btn-start {
         width: 100%;
     }
 
@@ -529,5 +565,187 @@ body {
 
     .shape {
         filter: blur(60px);
+        opacity: 0.1;
+    }
+}
+
+/* Smartphones */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+
+    .title {
+        font-size: 1.5rem;
+        line-height: 1.3;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+        margin-bottom: 25px;
+    }
+
+    .question-title {
+        font-size: 1.4rem;
+    }
+
+    .question-text {
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+        line-height: 1.6;
+    }
+
+    .redirect-text {
+        font-size: 0.95rem;
+        margin-top: 10px;
+    }
+
+    .question-number {
+        font-size: 2.5rem;
+        margin-bottom: -10px;
+    }
+
+    .divider {
+        width: 50px;
+        height: 3px;
+        margin: 15px auto;
+    }
+
+    .btn {
+        padding: 14px 25px;
+        font-size: 1rem;
+        gap: 8px;
+    }
+
+    .btn-check {
+        font-size: 1.2rem;
+    }
+
+    .btn-arrow {
+        font-size: 1.3rem;
+    }
+
+    .button-group {
+        gap: 12px;
+    }
+
+    .icon-circle,
+    .success-circle {
+        width: 70px;
+        height: 70px;
+    }
+
+    .icon-circle svg,
+    .success-circle svg {
+        width: 35px;
+        height: 35px;
+    }
+
+    .shape {
+        filter: blur(50px);
+        opacity: 0.08;
+    }
+
+    /* Ajustar formas para não ocupar tanto espaço em telas pequenas */
+    .shape-1,
+    .shape-2,
+    .shape-3,
+    .shape-4,
+    .shape-5,
+    .shape-6 {
+        width: 200px !important;
+        height: 200px !important;
+    }
+}
+
+/* Smartphones muito pequenos */
+@media (max-width: 360px) {
+    .card {
+        padding: 25px 15px;
+    }
+
+    .title {
+        font-size: 1.3rem;
+    }
+
+    .subtitle {
+        font-size: 0.95rem;
+    }
+
+    .question-title {
+        font-size: 1.2rem;
+    }
+
+    .question-text {
+        font-size: 1rem;
+    }
+
+    .redirect-text {
+        font-size: 0.9rem;
+    }
+
+    .question-number {
+        font-size: 2rem;
+    }
+
+    .btn {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+
+    .icon-circle,
+    .success-circle {
+        width: 60px;
+        height: 60px;
+    }
+
+    .icon-circle svg,
+    .success-circle svg {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* Orientação paisagem em dispositivos móveis */
+@media (max-height: 600px) and (orientation: landscape) {
+    .card {
+        padding: 20px 30px;
+    }
+
+    .icon-circle,
+    .success-circle {
+        width: 60px;
+        height: 60px;
+    }
+
+    .icon-circle svg,
+    .success-circle svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    .subtitle,
+    .question-text {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+    .question-number {
+        font-size: 2rem;
+        margin-bottom: -10px;
+    }
+
+    .divider {
+        margin: 10px auto;
     }
 }
