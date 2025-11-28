@@ -134,8 +134,18 @@ function redirectToWhatsApp() {
     // Número do WhatsApp
     const numeroWhatsApp = '5535998183459';
 
-    // URL do WhatsApp
-    const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
+    // Detectar se é dispositivo móvel
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    let urlWhatsApp;
+
+    if (isMobile) {
+        // Para mobile: usar whatsapp:// que abre o app direto
+        urlWhatsApp = `whatsapp://send?phone=${numeroWhatsApp}&text=${mensagemCodificada}`;
+    } else {
+        // Para desktop: usar wa.me que abre WhatsApp Web
+        urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
+    }
 
     // Redirecionar
     window.location.href = urlWhatsApp;
