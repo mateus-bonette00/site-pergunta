@@ -29,10 +29,10 @@ function answerQuestion2(answer) {
     // Adicionar partículas
     createParticles();
 
-    // Redirecionar para WhatsApp após 3 segundos
+    // Redirecionar para WhatsApp após 1 segundo
     setTimeout(() => {
         redirectToWhatsApp();
-    }, 3000);
+    }, 1000);
 }
 
 function hideCard(cardId) {
